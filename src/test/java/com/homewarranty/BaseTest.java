@@ -28,7 +28,7 @@ public class BaseTest {
         FileInputStream fis = new FileInputStream("src/main/resources/config.properties");
         prop.load(fis);
 
-        dotenv = Dotenv.configure().systemProperties().load();
+        dotenv = Dotenv.configure().ignoreIfMissing().systemProperties().load();
 
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
