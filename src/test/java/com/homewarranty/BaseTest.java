@@ -28,14 +28,28 @@ public class BaseTest {
         FileInputStream fis = new FileInputStream("src/main/resources/config.properties");
         prop.load(fis);
 
-        dotenv = Dotenv.configure().systemProperties().load();
+        dotenv = Dotenv.configure().ignoreIfMissing().systemProperties().load();
 
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--start-maximized");
         options.addArguments("--disable-notifications");
-        if (Boolean.parseBoolean(System.getProperty("headless", "false"))) {
+        options.addArguments("--disable-infobars");
+
+        // Add support for a persistent Chrome profile to bypass identity verification
+        String chromeProfile = System.getProperty("chromeProfile");
+        boolean isHeadless = Boolean.parseBoolean(System.getProperty("headless", "false"));
+
+        if (isHeadless) {
             options.addArguments("--headless");
+            options.addArguments("--disable-gpu");
+            options.addArguments("--window-size=1920,1080");
+            options.addArguments("--no-sandbox");
+            options.addArguments("--disable-dev-shm-usage");
+        }
+
+        if (chromeProfile != null && !chromeProfile.isEmpty()) {
+            options.addArguments("user-data-dir=" + chromeProfile);
         }
         driver = new ChromeDriver(options);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));

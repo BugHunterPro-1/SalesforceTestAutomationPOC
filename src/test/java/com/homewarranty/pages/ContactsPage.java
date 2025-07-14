@@ -39,7 +39,11 @@ public class ContactsPage {
     }
 
     public void navigateToJohnSmith() {
-        wait.until(ExpectedConditions.elementToBeClickable(johnSmithLink)).click();
+        WebElement johnSmith = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[@title='John Smith']")));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", johnSmith);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", johnSmith);
+        // Wait for the next page to load by waiting for the 'New Case' button to be clickable
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@name='NewCase' and text()='New']")));
     }
 
     public void clickNewCase() {

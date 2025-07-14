@@ -48,6 +48,21 @@ mvn test -Dheadless=true
 ```
 This is the recommended mode for CI/CD environments.
 
+### Bypassing Salesforce Identity Verification (Local Testing)
+When running tests locally, Salesforce may require identity verification because the automated browser session appears as a new, untrusted login. To bypass this, you can instruct Selenium to use your existing Chrome profile, which Salesforce already trusts.
+
+1.  **Find your Chrome profile path:**
+    -   Open Chrome and navigate to `chrome://version`.
+    -   Look for the "Profile Path" field and copy the value. It will look something like `C:\Users\<YourUsername>\AppData\Local\Google\Chrome\User Data\Default`.
+
+2.  **Run the test with your profile:**
+    Use the following command, replacing `<path-to-your-profile>` with the path you copied:
+    ```bash
+    mvn test -DchromeProfile="<path-to-your-profile>"
+    ```
+
+This will make the test run in a browser that is already logged in and trusted by Salesforce, avoiding the verification step.
+
 ## Viewing Reports
 After the test run is complete, the Extent report can be found at `reports/index.html`. Open this file in your web browser to view the detailed test results, including step-by-step logs and screenshots.
 
@@ -185,3 +200,8 @@ You can also manually trigger the CI pipeline without pushing code changes. To d
 -   **Solution:**
     -   Ensure that `TestLogger.log()` is called at each significant step in the test case.
     -   Check the console output for any errors related to screenshot capture.
+
+**4. Salesforce Identity Verification in CI/CD**
+-   **Symptom:** Tests fail during login in the CI/CD pipeline, often with a timeout waiting for an element on the home page.
+-   **Cause:** Salesforce may require identity verification when logging in from a new IP address, which is common in CI/CD environments like GitHub Actions.
+-   **Solution:** The most reliable solution is to whitelist the IP address ranges for your CI/CD provider in your Salesforce organization's trusted IP ranges. For GitHub Actions, you can find the IP ranges [here](https://api.github.com/meta).

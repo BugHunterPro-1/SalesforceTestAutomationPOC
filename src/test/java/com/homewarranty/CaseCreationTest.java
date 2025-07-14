@@ -24,7 +24,6 @@ public class CaseCreationTest extends BaseTest {
         TestLogger.log("Navigated to Contacts", driver);
 
         // Set zoom and navigate to John Smith
-        contactsPage.setZoom();
         contactsPage.navigateToJohnSmith();
         TestLogger.log("Navigated to John Smith's contact page", driver);
 
