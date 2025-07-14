@@ -46,7 +46,9 @@ public class BaseTest {
             options.addArguments("--window-size=1920,1080");
             options.addArguments("--no-sandbox");
             options.addArguments("--disable-dev-shm-usage");
-        } else if (chromeProfile != null && !chromeProfile.isEmpty()) {
+        }
+
+        if (chromeProfile != null && !chromeProfile.isEmpty()) {
             options.addArguments("user-data-dir=" + chromeProfile);
         }
         driver = new ChromeDriver(options);
