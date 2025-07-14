@@ -34,8 +34,17 @@ public class BaseTest {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--start-maximized");
         options.addArguments("--disable-notifications");
+        options.addArguments("--disable-infobars");
+
+        // Add support for a persistent Chrome profile to bypass identity verification
+        String chromeProfile = System.getProperty("chromeProfile");
+        if (chromeProfile != null && !chromeProfile.isEmpty()) {
+            options.addArguments("user-data-dir=" + chromeProfile);
+        }
+
         if (Boolean.parseBoolean(System.getProperty("headless", "false"))) {
             options.addArguments("--headless");
+            options.addArguments("--window-size=1920,1080");
         }
         driver = new ChromeDriver(options);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
