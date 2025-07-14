@@ -144,7 +144,14 @@ The workflow requires the following secrets to be configured in your GitHub repo
 -   `SALESFORCE_USERNAME`: Your Salesforce username.
 -   `SALESFORCE_PASSWORD`: Your Salesforce password.
 
-To add these secrets, navigate to your repository's **Settings > Secrets and variables > Actions** and create new repository secrets.
+To add these secrets, go to your repository's **Settings > Secrets and variables > Actions**, or click [here](https://github.com/fhimani/SeleniumPOC/settings/secrets/actions), and create new repository secrets for `SALESFORCE_USERNAME` and `SALESFORCE_PASSWORD`.
+
+### Manual Workflow Execution
+You can also manually trigger the CI pipeline without pushing code changes. To do this:
+1. Go to the **Actions** tab in your GitHub repository.
+2. Select the **Java CI** workflow from the list on the left.
+3. Click the **Run workflow** dropdown button on the right.
+4. Choose the branch you want to run the workflow on and click **Run workflow**.
 
 ## Runbook
 
